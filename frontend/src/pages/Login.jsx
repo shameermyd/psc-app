@@ -17,7 +17,7 @@ const Login = () => {
               alert("Login Successfully")
 
               localStorage.setItem("token",response.token);
-              navigate("/");
+              navigate("/dashboard");
               console.log("Response",response);
             }else{
               alert(response.message)
