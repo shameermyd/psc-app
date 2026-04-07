@@ -10,11 +10,18 @@ const Navbar = () => {
   }
 
   return (
-    <div className="bg-blue-600 text-white p-4 flex justify-between">
-      <h1 className="font-bold"><Link to="/">PSC App</Link></h1>
-      <Link to="/quiz">Quiz</Link>
-      <div>
-        {token ? (<button onClick={handleLogOut}>Logout</button>) : (<Link to="/login">Login</Link>)}
+    <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
+      <h1 className="font-bold text-lg"><Link to="/">PSC App</Link></h1>
+
+      <div className="flex gap-4 items-center">
+        <Link to="/">Home</Link>
+        <Link to="/quiz">Quiz</Link>
+
+        {token ? (
+          <button onClick={handleLogOut}>Logout</button>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </div>
     </div>
   );

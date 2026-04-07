@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { quizQuestions } from "../data/quiz";
+import { useNavigate } from "react-router-dom";
 
 const Quiz = () => {
+    const navigate = useNavigate();
     const [answers, setAnswers] = useState({});
     const [score, setScore] = useState(null);
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
 
     const handleSelect = (qId, option) => {
         setAnswers({ ...answers, [qId]: option });
     };
 
     const handleSubmit = () => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            setShowLoginPopup(true); 
+            return;
+        }
+
         let total = 0;
 
         quizQuestions.forEach((q) => {
@@ -38,7 +48,7 @@ const Quiz = () => {
                                     value={opt}
                                     onChange={() => handleSelect(q.id, opt)}
                                 />
-                                <span className={`p-1 ${answers[q.id] === opt ? "bg-slate-200 rounded-2xl" : ""}`}>{opt}</span> 
+                                <span className={`p-1 ${answers[q.id] === opt ? "bg-slate-200 rounded-2xl" : ""}`}>{opt}</span>
                                 {/* className="ml-2" */}
                             </label>
                         </div>
@@ -58,8 +68,36 @@ const Quiz = () => {
                     Your Score: {score} / {quizQuestions.length}
                 </p>
             )}
+            {
+                showLoginPopup && (
+                    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+                        <div className="bg-white p-6 rounded shadow w-80 text-center">
+                            <h2 className="text-xl font-bold mb-3">Login Required</h2>
+                            <p className="mb-4">Please login to submit the quiz</p>
+
+                            <button
+                                onClick={() => navigate("/login")}
+                                className="bg-blue-600 text-white px-4 py-2 rounded mr-2"
+                            >
+                                Login
+                            </button>
+
+                            <button
+                                onClick={() => setShowLoginPopup(false)}
+                                className="px-4 py-2 border rounded"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+
         </div>
+
     );
+
+
 };
 
 export default Quiz;

@@ -7,7 +7,11 @@ const CourseDetails = () => {
     console.log(course);
 
     if (!course) {
-        return <p className="p-6">Course not found</p>;
+        return (
+            <div className="p-6 text-center">
+                <p>Course not found</p>
+            </div>
+        );
     }
 
     return (
