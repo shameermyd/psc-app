@@ -11,8 +11,8 @@ app.use(express.json());
 app.use('/api/auth',authRouter);
 
 
-// app.get('/',(req,res)=>{
-//     res.send("API Working!!")
-// })
+app.get('/',(req,res)=>{
+    res.send("API Working!!")
+})
 
 module.exports = app;
