@@ -15,7 +15,7 @@ const CourseDetails = () => {
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="flex justify-center  min-h-screen bg-gray-100">
             <div className="max-w-xl w-full bg-white border p-6 rounded shadow">
                 <h1 className="text-2xl font-bold">{course.title}</h1>
 

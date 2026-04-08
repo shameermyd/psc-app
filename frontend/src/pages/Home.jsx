@@ -1,9 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { courses } from "../data/courses";
+import { useState } from "react";
 
 const Home = () => {
 
     const navigate = useNavigate();
+    const [openCategory, setOpenCategory] = useState(null);
+
+    const toggleCategory = (category) => {
+        setOpenCategory(openCategory === category ? null : category);
+    };
+
     // group by category
     const groupedCourses = courses.reduce((acc, course) => {
         if (!acc[course.category]) {
@@ -12,8 +19,6 @@ const Home = () => {
         acc[course.category].push(course);
         return acc;
     }, {});
-    console.log(courses, '=====courses');
-    console.log(groupedCourses);
 
 
     return (
@@ -31,8 +36,9 @@ const Home = () => {
             </div>
             <h1 className="text-2xl font-bold mb-6">PSC Courses</h1>
 
-            {Object.keys(groupedCourses).map((category) => (
+            {/* {Object.keys(groupedCourses).map((category) => (
                 <div key={category} className="mb-8">
+
                     <h2 className="text-xl font-semibold mb-4 text-blue-600">
                         {category}
                     </h2>
@@ -54,10 +60,52 @@ const Home = () => {
                                 </button>
                             </div>
                         ))}
+                    </div>
                 </div>
+            ))} */}
+            {Object.keys(groupedCourses).map((category) => (
+                <div key={category} className="mb-6 border rounded">
+
+                    {/* Header */}
+                    <div
+                        onClick={() => toggleCategory(category)}
+                        className="flex justify-between items-center p-4 bg-gray-100 cursor-pointer"
+                    >
+                        <h2 className="text-lg font-semibold text-blue-600">
+                            {category}
+                        </h2>
+
+                        <span>
+                            {openCategory === category ? "▲" : "▼"}
+                        </span>
+                    </div>
+
+                    {/* Content */}
+                    {openCategory === category && (
+                        <div className="grid md:grid-cols-3 gap-4 p-4">
+                            {groupedCourses[category].map((course) => (
+                                <div
+                                    key={course.id}
+                                    className="border p-4 rounded shadow hover:shadow-lg transition bg-white"
+                                >
+                                    <h3 className="font-bold text-lg">{course.title}</h3>
+
+                                    <p className="text-sm mt-2 text-gray-600">
+                                        {course.description}
+                                    </p>
+
+                                    <button
+                                        onClick={() => navigate(`/course/${course.id}`)}
+                                        className="mt-3 bg-blue-500 text-white px-3 py-1 rounded w-full"
+                                    >
+                                        View Details
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
-    ))
-}
+            ))}
         </div >
     );
 };

@@ -1,0 +1,14 @@
+
+android/app/build/
+android/.gradle/
+android/local.properties
+android/captures/
+
+node_modules
+backend/node_modules
+
+.env
+
+
+dist
+build
