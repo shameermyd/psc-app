@@ -11,7 +11,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogIn = async () => {
-    console.log(email, password);
     try {
       setLoading(true);
       const response = await loginApi({ email, password });

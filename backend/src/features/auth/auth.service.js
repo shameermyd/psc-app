@@ -1,20 +1,24 @@
 const User = require("./auth.model");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const loginService = (email, password) => {
-    if (email === "admin@test.com" && password === "1234") {
-        return {
-            success: true,
-            token: "fake-jwt-token",
-            user: { email }
-        }
-    }
+const loginUser = async (data) => {
+  const { email, password } = data;
 
-    return {
-        success: false,
-        message: "Invalid credentials"
-    };
-}
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Invalid email or password");
+  }
+
+  const isUserValid = await bcrypt.compare(password, user.password);
+  if (!isUserValid) {
+    throw new Error("Invalid email or password");
+  }
+  const token = jwt.sign({userId: user._id},process.env.JWT_SECRET,{expiresIn: "1d"})
+
+  return { user, token };
+};
 
 const registerUser = async (data) => {
   const { name, email, password } = data;
@@ -38,4 +42,4 @@ const registerUser = async (data) => {
   return await user.save();
 };
 
-module.exports = { loginService, registerUser }
+module.exports = { loginUser, registerUser }

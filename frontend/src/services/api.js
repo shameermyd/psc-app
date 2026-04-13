@@ -1,5 +1,5 @@
 
-const BASE_URL = "http://localhost:5002/api";
+const BASE_URL = "http://192.168.1.103:5002/api";
 
 export const loginApi = async (data) => {
   const res = await fetch(`${BASE_URL}/auth/login`, {
@@ -10,5 +10,7 @@ export const loginApi = async (data) => {
     body: JSON.stringify(data),
   });
 
-  return res.json();
+  const userData =  await res.json();
+  localStorage.setItem("token", data.token);
+  return userData;
 };
