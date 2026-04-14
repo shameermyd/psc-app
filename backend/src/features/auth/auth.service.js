@@ -15,6 +15,8 @@ const loginUser = async (data) => {
   if (!isUserValid) {
     throw new Error("Invalid email or password");
   }
+  console.log(process.env.JWT_SECRET,'-----process.env.JWT_SECRET');
+  
   const token = jwt.sign({userId: user._id},process.env.JWT_SECRET,{expiresIn: "1d"})
 
   return { user, token };
