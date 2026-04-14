@@ -15,9 +15,11 @@ const Login = () => {
       setLoading(true);
       const response = await loginApi({ email, password });
       setLoading(false);
+      console.log(response, '===>response');
       if (response.success) {
         alert("Login Successfully")
-
+        
+        
         localStorage.setItem("token", response.token);
         navigate("/dashboard");
         console.log("Response", response);
